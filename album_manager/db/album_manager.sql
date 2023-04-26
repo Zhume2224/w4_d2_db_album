@@ -18,7 +18,7 @@ CREATE TABLE albums(
 
 
 
-INSERT INTO artists(first_name,last_name)
-VALUES ('A','B');
-INSERT INTO artists(first_name,last_name)
-VALUES ('A','B');
+-- INSERT INTO artists(first_name,last_name)
+-- VALUES ('A','B');
+-- INSERT INTO artists(first_name,last_name)
+-- VALUES ('A','B');

@@ -1,56 +1,73 @@
 from db.run_sql import run_sql
 from models.artist import Artist
 from models.album import Album
+import repositories.artist_repository as artist_repo
 
 
 def save(album):
     sql='INSERT INTO albums (title,year,artist_id) VALUES(%s,%s,%s) RETURNING *'
     values=[album.title, album.year,album.artist.id]
     results=run_sql(sql, values)
-    print(results)
-    # id=results[0]['id']
-    # album.id=id
-    # return album
+    id=results[0]['id']
+    album.id=id
+    return album
 
+
+# method1
+# def select_all():
+#     albums=[]
+#     sql='SELECT * FROM albums'
+#     results=run_sql(sql)
+
+#     for row in results:
+#         if row != None:
+#             albums.append(results)
+
+#     return albums
 
 
 def select_all():
-    artists=[]
-    sql='SELECT * FROM artists'
+    albums=[]
+    sql='SELECT * FROM albums'
     results=run_sql(sql)
 
     for row in results:
-        artist=Artist(row['first_name'],row['last_name'],row['id'])
-        # translate to python
-        artists.append(artist)
+            artist=artist_repo.select(row['artist_id'])
+            print(artist)
+        # instance of Artist 
+            album=Album(row['title'],row['year'],artist,row['id'])
+            albums.append(album)
 
-    return artists
+    return albums
 
 
 def select(id):
-    artist=None
-    sql='SELECT * FROM artists WHERE id=%s'
-    values=[id]
-    result=run_sql(sql,values)[0]
-    # translate to python
-  
-    if result is not None:
-        artist=Artist(result['first_name'],result['last_name'],result['id'] )
+     album=None
+     sql='SELECTE * FROM albums WHERE id=%?'
+     values=[id]
+     result=run_sql(sql,values)
+     print('please print this out')
+     if result:
+          result=result[0]
+          artist=artist_repo.select(result['artist_id'])
+          album=Album(result['id'],result['title'],result['year'],artist)
 
-    return artist
-
-def delete(id):
-    sql='DELETE FROM artists WHERE id=%s'
-    values=[id]
-    run_sql(sql,values)
+     return album
 
 def delete_all():
-    sql='DELETE  FROM artists'
+    sql = "DELETE  FROM tasks"
     run_sql(sql)
-    # no need to put *
 
-def update(artist):
-    sql='UPDATE artists SET (first_name,last_name)=(%s,%s)WHERE id=%s'
-    values=[artist.first_name,artist.last_name,artist.id]
-    run_sql(sql,values)
+
+def delete(id):
+    sql = "DELETE  FROM tasks WHERE id = %s"
+    values = [id]
+    run_sql(sql, values)
+
+
+def update(album):
+    sql = "UPDATE tasks SET (title, year, artist_id) = (%s, %s, %s, %s) WHERE id = %s"
+    values = [album.title, album.year, album.artist.id,album.id]
+    run_sql(sql, values)
+
 

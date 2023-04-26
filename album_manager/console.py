@@ -33,8 +33,8 @@ album5=Album('TOOMANY',2023,artist2)
 # for artist in result:
 #     print(artist.__dict__)
 
-#--->test select by id func
-# result=artist_repository.select(3)
+# --->test select by id func
+# result=artist_repository.select(26)
 # print(result.__dict__)
 
 # --->test delete func
@@ -52,5 +52,17 @@ album5=Album('TOOMANY',2023,artist2)
 
 
 # -->test save album
-result=album_repository.save(album1)
-print(result)
+# result=album_repository.save(album1)
+# album_repository.save(album2)
+# album_repository.save(album3)
+# album_repository.save(album4)
+# album_repository.save(album5)
+
+
+# -->test select album by id
+# print(result)
+
+# -->test select_all
+result=album_repository.select_all()
+for album in result:
+  print(album.__dict__)
